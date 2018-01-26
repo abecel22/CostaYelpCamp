@@ -1,14 +1,17 @@
 const express = require('express');
 const app = express();
 
+app.use(express.static('public'));
+app.set('view engine', 'ejs');
+
 app.get('/', function(req, res) {
-    res.render('home.ejs'); 
+    res.render('home'); 
 })
 
 //fallinlovewith/bruno (my dog) 
 app.get('/fallinlovewith/:thing', function(req, res) {
     let thing = req.params.thing;
-    res.render('love.ejs', {thingVar: thing});
+    res.render('love', {thingVar: thing});
 });
 
 app.get('/posts', function(req, res) {
@@ -17,7 +20,7 @@ app.get('/posts', function(req, res) {
         {title: 'My Adorable Pet Turtle', author: 'Gabs'},
         {title: 'Can You Believe This Pig?', author: 'Sofs'}
     ]
-    res.render('posts.ejs', {posts: posts});
+    res.render('posts', {posts: posts});
 });
 
 app.listen(3000, function(req, res) {
