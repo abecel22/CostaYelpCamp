@@ -9,8 +9,9 @@ app.get('/', function(req, res) {
 });
 
 app.get('/results', function(req, res) {
-    let search = req.query.search;
-    request('http://www.omdbapi.com/?s=' + search + '&apikey=thewdb', function(error, response, body) {
+    let query = req.query.search;
+    let url = 'http://www.omdbapi.com/?s=' + query + '&apikey=thewdb';
+    request(url , function(error, response, body) {
         if(!error && response.statusCode == 200) {
             let data = JSON.parse(body);
             res.render('results', {data: data});
