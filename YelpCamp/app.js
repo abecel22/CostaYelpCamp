@@ -1,23 +1,49 @@
 const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
+      app = express();
+      bodyParser = require('body-parser');
+      mongoose = require('mongoose');
 
+mongoose.connect('mongodb://localhost/yelp_camp');
 app.use(bodyParser.urlencoded({extended: true}));
-
 app.set('view engine', 'ejs')
 
-let campgrounds = [
-    {name: 'Salmon Creek', image: 'https://farm9.staticflickr.com/8020/7538732802_49a42d28d2.jpg'},
-    {name: 'Granite Hill', image: 'https://farm6.staticflickr.com/5106/5681900610_fc449a1ac2.jpg'},
-    {name: 'Mountain Goat"s Rest', image: 'https://farm5.staticflickr.com/4117/4741325076_2d2b5d70dc.jpg'}
-]
+//SCHEMA SETUP
+let campgroundSchema = new mongoose.Schema({
+    name: String,
+    image: String
+});
+
+let Campground = mongoose.model('Campground', campgroundSchema);
+
+// Campground.create(
+//     {
+//     name: 'Granite Hill', 
+//     image: 'https://farm6.staticflickr.com/5106/5681900610_fc449a1ac2.jpg'
+//     }, 
+//     function(err, campground) {
+//     if(err) {
+//         console.log(err);
+//     } else {
+//         console.log('Newly Created Campground: ');
+//         console.log(campground);
+//     }
+// });
+
 
 app.get('/', function(req, res) {
     res.render('landing');
 });
 
 app.get('/campgrounds', function(req, res) {
-    res.render('campgrounds', {campgrounds: campgrounds});
+    //get all Campgrounds from DB
+    Campground.find({}, function(err, allCampgrounds) {
+        if(err) {
+            console.log(err);
+        } else {
+            res.render('campgrounds', {campgrounds: allCampgrounds});
+        }
+    });
+    
 });
 
 app.post('/campgrounds', function(req, res) {
@@ -25,9 +51,16 @@ app.post('/campgrounds', function(req, res) {
     let name = req.body.name;
     let image = req.body.image;
     let newCampground = {name: name, image: image};
-    campgrounds.push(newCampground);
-    //redirect back to backgrounds page
-    res.redirect('/campgrounds');
+    //create a new campground and save to database
+    Campground.create(newCampground, function(err, newlyCreated) {
+        if(err) {
+            console.log(err);
+        } else {
+            //redirect back to backgrounds page
+            res.redirect('/campgrounds');
+        }
+    });
+    
 });
 
 app.get('/campgrounds/new', function(req, res) {
