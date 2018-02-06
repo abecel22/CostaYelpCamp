@@ -1,25 +1,7 @@
 let mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/blog_demo_2');
-
-//POST title- content
-const postSchema = new mongoose.Schema({
-    title: String,
-    content: String
-});
-let Post = mongoose.model('Post', postSchema);
-
-//USER email-name
-const userSchema = new mongoose.Schema({
-    email: String,
-    name: String,
-    posts: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Post'
-        }
-    ]
-});
-let User = mongoose.model('User', userSchema);
+const Post = require('./models/post');
+const User = require('./models/user');
 
 // User.create({
 //     email: 'bob@gmail.com',
@@ -28,8 +10,8 @@ let User = mongoose.model('User', userSchema);
 
 Post.create(
     {
-        title: 'How to cooke the best burger part 2',
-        content: 'blah blah blah blah blah blah'
+        title: 'How to cooke the best burger part 4',
+        content: 'iewpoeirwpoeirwpoeirwpoeirweporiopweclea'
     },
     function(err, post) {
         User.findOne({ email: 'bob@gmail.com' }, function(err, foundUser) {
@@ -48,3 +30,15 @@ Post.create(
         });
     }
 );
+
+//find user
+// find all posts for that user
+// User.findOne({ email: 'bob@gmail.com' })
+//     .populate('posts')
+//     .exec(function(err, user) {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             console.log(user);
+//         }
+//     });
