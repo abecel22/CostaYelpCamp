@@ -16,7 +16,8 @@ const commentRoutes = require('./routes/comments');
 const campgroundRoutes = require('./routes/campgrounds');
 const indexRoutes = require('./routes/index');
 
-mongoose.connect('mongodb://localhost/yelp_camp');
+//mongoose.connect('mongodb://localhost/yelp_camp'); //only for testing
+mongoose.connect('mongodb://abela:abela22@ds135690.mlab.com:35690/yelpcamp22');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
@@ -52,6 +53,14 @@ app.use(indexRoutes);
 app.use(campgroundRoutes);
 app.use(commentRoutes);
 
-app.listen(3000, function() {
-    console.log('YelpCamp Server Has Started!!');
+//This is for local testing
+
+// app.listen(3000, function() {
+//     console.log('The YelpCamp Server Has Started!');
+// });
+
+//This is for herokuapp.
+
+app.listen(process.env.PORT, process.env.IP, function() {
+    console.log('The YelpCamp Server Has Started!');
 });
