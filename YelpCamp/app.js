@@ -26,6 +26,8 @@ app.use(flash());
 // seed the detabase
 // seedDB();
 
+app.locals.moment = require('moment');
+
 //Passport configuration
 app.use(
     require('express-session')({
