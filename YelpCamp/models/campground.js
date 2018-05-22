@@ -5,6 +5,10 @@ let campgroundSchema = new mongoose.Schema({
     image: String,
     description: String,
     createdAt: { type: Date, default: Date.now },
+    cost: Number,
+    location: String,
+    lat: Number,
+    lng: Number,
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,

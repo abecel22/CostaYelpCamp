@@ -41,3 +41,11 @@
     float: right;
     font-size: 0.9em;
 }
+
+/* Google Maps */
+#map {
+    height: 400px;
+    width: 100%;
+    border: 1.5px solid grey;
+    margin: 5% 0;
+}

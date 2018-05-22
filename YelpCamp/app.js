@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 app = express();
 bodyParser = require('body-parser');
@@ -55,6 +57,12 @@ app.use(indexRoutes);
 app.use(campgroundRoutes);
 app.use(commentRoutes);
 
+//heroku
 app.listen(process.env.PORT, process.env.IP, function() {
     console.log('The YelpCamp Server Has Started!');
 });
+
+//local host setup
+// app.listen(3000, function() {
+//     console.log('The YelpCamp Server Has Started!');
+// });
